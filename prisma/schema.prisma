@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgres"
+  url               = env("DATABASE_URL")
+  //shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id     Int      @id @unique @default(autoincrement())
+  name   String
+  number Int
+  spent  Int
+  role   Role    @default(CUSTOMER)
+  orders Order[]
+}
+
+model Dish {
+  id          Int    @id @unique @default(autoincrement())
+  price       Int
+  type        Int
+  description String
+  name        String
+  imageUrl    String  @default("https://img.delo-vcusa.ru/2019/09/pesochniy-pirog-s-yablokami.jpg") // заменить
+
+  Order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?
+}
+
+model Order {
+  id          Int      @id @unique @default(autoincrement())
+  price       Int
+  pickup      Int
+  status      Int
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int      
+  statusOrder Status   @default(UNPAID)
+  dishes      Dish[]
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  BANNED
+}
+
+enum Status {
+  UNPAID
+  NEW
+  INWORK
+  DELIVERY
+  READY
+  ENDED
+}
