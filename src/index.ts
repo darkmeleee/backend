@@ -4,7 +4,13 @@ import {app, apiRouter} from "./routes";
 import prisma from "./db";
 import {User, PrismaClient, Prisma} from '@prisma/client';
 // добавить защиту
+const bodyParser = require("body-parser");
 
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+)
 
 type ExpressUser = User;
 

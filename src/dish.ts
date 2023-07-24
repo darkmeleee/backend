@@ -1,6 +1,24 @@
 import express from "express";
 import prisma from "./db";
 import {User, PrismaClient, Prisma} from '@prisma/client'; 
+import multer from "multer";
+const upload = multer({ dest: "uploads/" });
+import fs from "fs";
+
+
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, '/src/my-images');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname);
+  }
+});
+
+
+
+
+  
 
 // добавить защиту
 
@@ -87,3 +105,16 @@ dishRouter.post('/delete',
         res.send(deleteUser);
     }
 )
+
+dishRouter.post("/uploadImage", upload.single("image"), uploadFiles);
+
+function uploadFiles(req, res) {
+    var img = fs.readFileSync(req.file.path);
+    var encode_image = img.toString('base64');
+    // Define a JSONobject for the image attributes for saving to database 
+    var finalImg = {
+        contentType: req.file.mimetype,
+        image: Buffer.from(encode_image, 'base64')
+    };
+    res.json({ message: "Successfully uploaded files" });
+}
