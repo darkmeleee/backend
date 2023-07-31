@@ -44,6 +44,12 @@ model Order {
   dishes      Dish[]
 }
 
+model Admin {
+  id  Int   @id @unique @default(autoincrement())
+  login   String
+  password  String
+}
+
 enum Role {
   CUSTOMER
   ADMIN

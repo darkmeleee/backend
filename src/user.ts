@@ -19,6 +19,21 @@ userRouter.get('/get',
         res.send(user ?? {error: "user not found"});
     });
 
+    userRouter.get('/getAdmin',
+    async (req, res) => {
+        if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
+            return res.status(400).send({error: "id not passed"});
+        const user = await prisma.admin.findFirst({
+            where: {
+                id: parseInt(req.query.id) ,
+            }
+        });
+        if (!user) res.status(404);
+        res.send(user ?? {error: "user not found"});
+    });
+
+
+
 userRouter.get("/getAmount",
     async (req,res) => {
         const userCount = await prisma.user.count()
@@ -26,6 +41,8 @@ userRouter.get("/getAmount",
     }
 
 )
+
+
 
 userRouter.get('/getAll',
     async(req,res) => {
@@ -51,6 +68,22 @@ userRouter.post('/create',
     }
 
 )
+
+userRouter.post("/createAdmin",
+    async(req,res) => {
+        let user: Prisma.AdminCreateInput
+        user = {
+            login: req.body.login,
+            password: req.body.password
+        }
+        const newUser = await prisma.admin.create({
+            data: user
+        })
+        res.send(newUser);
+    }
+)
+
+
 
 userRouter.post("/ban",
     async(req,res) => {
