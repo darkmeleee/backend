@@ -3,6 +3,8 @@ dotenv.config();
 import {app, apiRouter} from "./routes";
 import prisma from "./db";
 import {User, PrismaClient, Prisma} from '@prisma/client';
+var cors = require('cors')
+
 // добавить защиту
 const bodyParser = require("body-parser");
 
@@ -12,6 +14,9 @@ app.use(
     })
 )
 app.use(bodyParser.json());
+
+app.use(cors())
+
 
 
 type ExpressUser = User;
