@@ -2,6 +2,7 @@ import express, {Express} from "express";
 import bodyParser from "body-parser";
 // добавить защиту
 import morgan from "morgan";
+import cors from "cors";
 
 
 
@@ -17,6 +18,9 @@ import { orderRouter } from "./order";
 export const app: Express = express();
 
 app.use(express.static('uploads'));
+app.use(cors({
+  origin: "*"
+}))
 
 
 import multer from "multer";
