@@ -37,7 +37,7 @@ orderRouter.post('/create',
         order = {
             price: req.body.price,
             pickup: req.body.pickup,
-            status: req.body.status,
+            statusOrder: req.body.status,
             user: {
                 connect: {
                     id: req.body.authorId
