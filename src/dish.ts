@@ -33,6 +33,7 @@ dishRouter.post('/create',
             description: req.body.description,
             name: req.body.name,
             imageUrl: req.body.imageUrl
+        
 
 
         }
@@ -79,6 +80,36 @@ dishRouter.get('/getAll',
     async(req,res) => {
         const users = await prisma.dish.findMany()
         res.send(users);
+    }
+)
+
+dishRouter.get('/getSitnoe',
+    async(req,res) => {
+        const pirogs = await prisma.dish.findMany({ 
+            where: {
+            type: 0
+        }})
+        res.send(pirogs);
+    }
+)
+
+dishRouter.get('/getSladkoe',
+    async(req,res) => {
+        const pirogs = await prisma.dish.findMany({ 
+            where: {
+            type: 1
+        }})
+        res.send(pirogs);
+    }
+)
+
+dishRouter.get('/getCake',
+    async(req,res) => {
+        const pirogs = await prisma.dish.findMany({ 
+            where: {
+            type: 2
+        }})
+        res.send(pirogs);
     }
 )
 

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Dish" ADD COLUMN     "typePirog" INTEGER NOT NULL DEFAULT 0;

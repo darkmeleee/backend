@@ -27,7 +27,6 @@ model Dish {
   description String
   name        String
   imageUrl    String  @default("https://img.delo-vcusa.ru/2019/09/pesochniy-pirog-s-yablokami.jpg") // заменить
-
   Order   Order? @relation(fields: [orderId], references: [id])
   orderId Int?
 }
