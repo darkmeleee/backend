@@ -12,7 +12,7 @@ userRouter.get('/get',
             return res.status(400).send({error: "id not passed"});
         const user = await prisma.user.findFirst({
             where: {
-                id: parseInt(req.query.id) ,
+                telegramId: parseInt(req.query.id) ,
             }
         });
         if (!user) res.status(404);
@@ -57,8 +57,8 @@ userRouter.post('/create',
         user = {
             name: req.body.name,
             number: req.body.number,
-            spent: req.body.spent
-
+            telegramId: req.body.tgid
+            
 
         }
         const newUser = await prisma.user.create({
