@@ -17,6 +17,7 @@ model User {
   name   String
   number String
   email String @default("kirill@mail.ru")
+  adress String @default("Typical adress")
   spent  Int    @default(0)
   role   Role    @default(CUSTOMER)
   orders Order[]
