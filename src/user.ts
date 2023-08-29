@@ -57,8 +57,8 @@ userRouter.post('/create',
         user = {
             name: req.body.name,
             number: req.body.number,
-            telegramId: req.body.tgid
-            
+            telegramId: req.body.tgid,
+            email: req.body.email
 
         }
         const newUser = await prisma.user.create({
