@@ -16,6 +16,7 @@ model User {
   telegramId Int  @default(0)
   name   String
   number String
+  email String @default("kirill@mail.ru")
   spent  Int    @default(0)
   role   Role    @default(CUSTOMER)
   orders Order[]
