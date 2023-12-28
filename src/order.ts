@@ -31,6 +31,33 @@ orderRouter.get('/get',
         res.send(user ?? {error: "order not found"});
     });
 
+orderRouter.get('/getUserOrders',
+    async (req, res) => {
+        if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
+            return res.status(400).send({error: "id not passed"});
+        const user = await prisma.order.findMany({
+            where: {
+                userId: parseInt(req.query.id) ,
+            }
+        });
+        if (!user) res.status(404);
+        res.send(user ?? {error: "order not found"});
+    });
+
+orderRouter.get('/status',
+    async (req, res) => {
+        if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
+            return res.status(400).send({error: "id not passed"});
+        const user = await prisma.order.findFirst({
+            where: {
+                id: parseInt(req.query.id) ,
+            }
+        });
+        if (!user) res.status(404);
+        res.send(user ?? {error: "order not found"});
+    });    
+
+
 orderRouter.post('/create',
     async (req, res) => {
         let order: Prisma.OrderCreateInput
