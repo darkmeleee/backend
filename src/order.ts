@@ -1,6 +1,12 @@
 import express from "express";
 import prisma from "./db";
 import {User, PrismaClient, Prisma} from '@prisma/client';
+import { YooCheckout, ICreatePayment  } from '@a2seven/yoo-checkout';
+import { v4 as uuidv4 } from 'uuid';
+
+
+const checkout = new YooCheckout({ shopId: '298896', secretKey: 'test_kV50VmccKgh4UXXNbe1LhhdCSgu7Zrx91cnnYcKkHZA' });
+
 // добавить защиту
 
 export const orderRouter = express.Router();
@@ -43,6 +49,50 @@ orderRouter.get('/getUserOrders',
         if (!user) res.status(404);
         res.send(user ?? {error: "order not found"});
     });
+
+orderRouter.post('/createPayment',
+    async (req,res) => {
+        const idempotenceKey = uuidv4();
+        const createPayload: ICreatePayment = {
+            amount: {
+                value: req.body.price,
+                currency: 'RUB'
+            },
+            confirmation: {
+                type: 'redirect',
+                return_url: req.body.url,
+            },
+            "capture": true,
+            "description" : `Заказ # ${req.body.orderId}`
+        };
+        
+        try {
+            const payment = await checkout.createPayment(createPayload, idempotenceKey);
+            console.log(payment);
+            console.log(payment.confirmation.confirmation_url);
+            const aboba = {
+                "url": payment.confirmation.confirmation_url
+            }
+            res.send(aboba);
+        } catch (error) {
+             console.error(error);
+        }
+    }
+)
+
+orderRouter.get('/paymentStatus',
+    async(req,res) => {
+        if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
+            return res.status(400).send({error: "id not passed"});
+        try {
+                const payment = await checkout.getPayment(req.query.id);
+                console.log(payment)
+            } catch (error) {
+                 console.error(error);
+            }
+            
+    }
+)
 
 orderRouter.get('/status',
     async (req, res) => {
