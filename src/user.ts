@@ -19,6 +19,20 @@ userRouter.get('/get',
         res.send(user ?? {error: "user not found"});
     });
 
+userRouter.get('/getById',
+    async (req, res) => {
+        if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
+            return res.status(400).send({error: "id not passed"});
+        const user = await prisma.user.findFirst({
+            where: {
+                id: parseInt(req.query.id) ,
+            }
+        });
+        if (!user) res.status(404);
+        res.send(user ?? {error: "user not found"});
+    });
+
+
     userRouter.get('/getAdmin',
     async (req, res) => {
         if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
@@ -100,9 +114,8 @@ userRouter.post("/ban",
     }
 )
 
-/*userRouter.get('/delete', 
+userRouter.get('/delete', 
     async (req,res) => {
-        if(req.body.password == password){ 
         await prisma.user.delete({where: {
             id: req.body.id
         }})
@@ -110,12 +123,10 @@ userRouter.post("/ban",
 
         
     }
-    else{
-        res.send("denied")
-    }
-    }    
+    
+     
 
-)*/
+)
 
 userRouter.post("/update",
     async (req,res) => {
