@@ -147,10 +147,20 @@ userRouter.post("/update",
         if(req.body.hasOwnProperty("role")){
             update["role"] = req.body.role;
         }
+
+        if(req.body.hasOwnProperty("adress")){
+            update["adress"] = req.body.adress;
+        }
+
+       if(req.body.hasOwnProperty("email")){
+            update["email"] = req.body.email;
+       }
+
+
     
         const user = await prisma.user.update({
             where: {
-                id: req.body.id,
+                telegramId: req.body.id,
             },
             data: update
         });

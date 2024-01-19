@@ -13,7 +13,7 @@ datasource db {
 
 model User {
   id     Int      @id @unique @default(autoincrement())
-  telegramId Int  @default(0)
+  telegramId Int   @default(0) @unique
   name   String
   number String
   email String @default("kirill@mail.ru")
@@ -39,7 +39,7 @@ model Order {
   price       Int
   pickup      Int
   createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [telegramId])
   userId      Int      
   statusOrder Status   @default(UNPAID)
   paymentType PaymentType @default(ONLINE)

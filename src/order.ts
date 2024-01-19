@@ -117,7 +117,7 @@ orderRouter.post('/create',
             statusOrder: req.body.status,
             user: {
                 connect: {
-                    id: req.body.authorId
+                    telegramId: req.body.authorId
                 }
             }
 
@@ -149,8 +149,7 @@ async (req, res) => {
         },
         orderBy: {
             createdAt: 'desc'
-        },
-        take: 5,
+        }
     });
     if (!orders) res.status(404);
     res.send(orders ?? {error: "user not found"});
