@@ -115,6 +115,7 @@ orderRouter.post('/create',
             price: req.body.price,
             pickup: req.body.pickup,
             statusOrder: req.body.status,
+            sostav: req.body.sostav,
             user: {
                 connect: {
                     telegramId: req.body.authorId

@@ -30,7 +30,6 @@ model Dish {
   description String
   name        String
   imageUrl    String  @default("https://img.delo-vcusa.ru/2019/09/pesochniy-pirog-s-yablokami.jpg") // заменить
-  Order   Order? @relation(fields: [orderId], references: [id])
   orderId Int?
 }
 
@@ -43,7 +42,7 @@ model Order {
   userId      Int      
   statusOrder Status   @default(UNPAID)
   paymentType PaymentType @default(ONLINE)
-  dishes      Dish[]
+  sostav      String @default("Пирог картофельный(2 шт), Сироп банановый(7 шт)")
 }
 
 model Admin {

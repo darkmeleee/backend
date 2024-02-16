@@ -156,6 +156,10 @@ userRouter.post("/update",
             update["email"] = req.body.email;
        }
 
+       if(req.body.hasOwnProperty("tgid")){
+        update['telegramId'] = req.body.tgid;
+       }
+
 
     
         const user = await prisma.user.update({
