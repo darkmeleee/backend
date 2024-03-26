@@ -87,7 +87,10 @@ dishRouter.get('/getSitnoe',
     async(req,res) => {
         const pirogs = await prisma.dish.findMany({ 
             where: {
-            type: 0
+                OR: [
+                    { type: 0},
+                    { type: 3}
+                  ]
         }})
         res.send(pirogs);
     }
@@ -97,7 +100,10 @@ dishRouter.get('/getSladkoe',
     async(req,res) => {
         const pirogs = await prisma.dish.findMany({ 
             where: {
-            type: 1
+                OR: [
+                    { type: 1},
+                    { type: 3}
+                  ]
         }})
         res.send(pirogs);
     }

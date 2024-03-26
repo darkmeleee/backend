@@ -10,6 +10,7 @@ userRouter.get('/get',
     async (req, res) => {
         if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
             return res.status(400).send({error: "id not passed"});
+    try{
         const user = await prisma.user.findFirst({
             where: {
                 telegramId: parseInt(req.query.id) ,
@@ -17,12 +18,18 @@ userRouter.get('/get',
         });
         if (!user) res.status(404);
         res.send(user ?? {error: "user not found"});
+    } catch(err){
+        console.log(err)
+        res.status(404);
+    }
+    
     });
 
 userRouter.get('/getById',
     async (req, res) => {
         if (typeof req.query.id !== "string" || isNaN(parseInt(req.query.id)))
             return res.status(400).send({error: "id not passed"});
+    try{
         const user = await prisma.user.findFirst({
             where: {
                 id: parseInt(req.query.id) ,
@@ -30,6 +37,9 @@ userRouter.get('/getById',
         });
         if (!user) res.status(404);
         res.send(user ?? {error: "user not found"});
+    } catch(err){
+        console.log(err)
+    }
     });
 
 
